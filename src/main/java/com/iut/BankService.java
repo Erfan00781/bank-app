@@ -40,9 +40,10 @@ public class BankService {
 
     // افزودن حساب جدید به یک کاربر
     public boolean addAccountToUser(String userId, Account account) {
-        // ابتدا شناسه کاربر را روی حساب تنظیم می‌کنیم
+        if (userService.getUser(userId) == null) {
+            return false; // کاربر وجود ندارد
+        }
         account.setUserId(userId);
-        // سپس حساب را ایجاد می‌کنیم
         return accountService.createAccount(account.getId(), account.getBalance(), userId);
     }
 
@@ -53,6 +54,12 @@ public class BankService {
 
     // حذف حساب بر اساس شناسه
     public boolean deleteAccount(String accountId) {
-        return accountService.deleteAccount(accountId);
+        Account account = accountService.getAccount(accountId);
+        if (account != null) {
+            return accountService.deleteAccount(accountId);
+        }
+        return false;
     }
+
+
 }

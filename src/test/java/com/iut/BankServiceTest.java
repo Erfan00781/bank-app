@@ -1,6 +1,8 @@
 package com.iut;
 
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
@@ -27,6 +29,9 @@ public class BankServiceTest {
     
     @BeforeAll
     static void generateDatabase() throws SQLException {
+            Connection connection = Database.getConnection();
+            Statement stmt = connection.createStatement();
+            stmt.execute("DROP ALL OBJECTS"); // پاکسازی کامل دیتابیس H2
         userRepository = new UserRepository();
         accountRepository = new AccountRepository();
         userService = new UserService(userRepository);

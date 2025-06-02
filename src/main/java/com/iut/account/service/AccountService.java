@@ -15,7 +15,7 @@ public class AccountService {
     }
 
     public boolean createAccount(String id, int initialBalance, String userId) {
-        if (repository.existsById(id)) {
+        if (repository.existsById(id)|| initialBalance < 0) {
             return false;
         }
         Account account = new Account(id, initialBalance);
@@ -69,7 +69,10 @@ public class AccountService {
     }
 
     public boolean deleteAccount(final String id) {
-        return repository.delete(id);
+        if (!repository.existsById(id)) {
+            return false;
+        }
+            return repository.delete(id);
     }
 
     public Account getAccount(String id) {
